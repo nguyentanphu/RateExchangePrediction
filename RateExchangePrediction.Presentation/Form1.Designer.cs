@@ -34,6 +34,8 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.ToCurrency = new System.Windows.Forms.ListBox();
 			this.FromCurrency = new System.Windows.Forms.ListBox();
+			this.button1 = new System.Windows.Forms.Button();
+			this.Result = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -73,6 +75,9 @@
 			// 
 			this.ToCurrency.FormattingEnabled = true;
 			this.ToCurrency.ItemHeight = 31;
+			this.ToCurrency.Items.AddRange(new object[] {
+            "cny",
+            "try"});
 			this.ToCurrency.Location = new System.Drawing.Point(283, 347);
 			this.ToCurrency.Name = "ToCurrency";
 			this.ToCurrency.Size = new System.Drawing.Size(194, 66);
@@ -82,16 +87,41 @@
 			// 
 			this.FromCurrency.FormattingEnabled = true;
 			this.FromCurrency.ItemHeight = 31;
+			this.FromCurrency.Items.AddRange(new object[] {
+            "usd",
+            "vnd"});
 			this.FromCurrency.Location = new System.Drawing.Point(283, 209);
 			this.FromCurrency.Name = "FromCurrency";
 			this.FromCurrency.Size = new System.Drawing.Size(194, 66);
 			this.FromCurrency.TabIndex = 8;
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(188, 568);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(289, 95);
+			this.button1.TabIndex = 9;
+			this.button1.Text = "Predict!";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// Result
+			// 
+			this.Result.AutoSize = true;
+			this.Result.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Result.Location = new System.Drawing.Point(765, 595);
+			this.Result.Name = "Result";
+			this.Result.Size = new System.Drawing.Size(37, 39);
+			this.Result.TabIndex = 10;
+			this.Result.Text = "0";
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1234, 794);
+			this.Controls.Add(this.Result);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.FromCurrency);
 			this.Controls.Add(this.ToCurrency);
 			this.Controls.Add(this.label3);
@@ -113,6 +143,8 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.ListBox ToCurrency;
 		private System.Windows.Forms.ListBox FromCurrency;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Label Result;
 	}
 }
 
