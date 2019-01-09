@@ -27,7 +27,7 @@ namespace RateExchangePrediction.Presentation
 			{
 				new Tuple<long, double>(1514764800, 3.2345),
 				new Tuple<long, double>(1517443200, 3.1345),
-				new Tuple<long, double>(1519862400, 3.4563)
+				new Tuple<long, double>(1519862400, 3.0563)
 			};
 
 			var n = sampleArr.Count;
@@ -44,7 +44,7 @@ namespace RateExchangePrediction.Presentation
 				sumXSquare += sample.Item1 * sample.Item1;
 			}
 
-			var slope = (n * sumXY - sumX * sumY) / (n * sumXSquare - sumXSquare);
+			var slope = (n * sumXY - sumX * sumY) / (n * sumXSquare - sumX * sumX);
 			var intercept = (sumY - slope * sumX) / n;
 
 			Result.Text = (slope * 1546300800 + intercept).ToString(CultureInfo.CurrentCulture);
