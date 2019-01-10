@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ExchangeRatePrediction.Application;
 
 namespace RateExchangePrediction.Presentation
 {
@@ -18,7 +19,7 @@ namespace RateExchangePrediction.Presentation
 			InitializeComponent();
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private async void button1_Click(object sender, EventArgs e)
 		{
 			var fromCurrency = FromCurrency.SelectedItem as string;
 			var toCurrency = ToCurrency.SelectedItem as string;
@@ -48,6 +49,10 @@ namespace RateExchangePrediction.Presentation
 			var intercept = (sumY - slope * sumX) / n;
 
 			Result.Text = (slope * 1546300800 + intercept).ToString(CultureInfo.CurrentCulture);
+
+            OpenExchangeClient client = new OpenExchangeClient();
+		    var result = await client.GetExchangeRateHistory(new DateTime(2016, 1, 1));
+		    MessageBox.Show(result.Base);
 		}
 	}
 }

@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExchangeRatePrediction.Application\ExchangeRatePrediction.Application.csproj">
+      <Project>{df07abca-84f9-43ad-baed-7736cb78e267}</Project>
+      <Name>ExchangeRatePrediction.Application</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateExchangePrediction.Presentation", "RateExchangePrediction.Presentation\RateExchangePrediction.Presentation.csproj", "{B5605EC2-BB9B-408E-9D8A-5347F2E931C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRatePrediction.Application", "ExchangeRatePrediction.Application\ExchangeRatePrediction.Application.csproj", "{DF07ABCA-84F9-43AD-BAED-7736CB78E267}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRatePrediction.UnitTests", "ExchangeRatePrediction.UnitTests\ExchangeRatePrediction.UnitTests.csproj", "{6C0930FA-3F8F-4ED1-A97E-0AFDBCD86F54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B5605EC2-BB9B-408E-9D8A-5347F2E931C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5605EC2-BB9B-408E-9D8A-5347F2E931C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5605EC2-BB9B-408E-9D8A-5347F2E931C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF07ABCA-84F9-43AD-BAED-7736CB78E267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF07ABCA-84F9-43AD-BAED-7736CB78E267}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF07ABCA-84F9-43AD-BAED-7736CB78E267}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF07ABCA-84F9-43AD-BAED-7736CB78E267}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0930FA-3F8F-4ED1-A97E-0AFDBCD86F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0930FA-3F8F-4ED1-A97E-0AFDBCD86F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0930FA-3F8F-4ED1-A97E-0AFDBCD86F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0930FA-3F8F-4ED1-A97E-0AFDBCD86F54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
