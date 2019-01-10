@@ -51,8 +51,8 @@ namespace RateExchangePrediction.Presentation
 			Result.Text = (slope * 1546300800 + intercept).ToString(CultureInfo.CurrentCulture);
 
             OpenExchangeClient client = new OpenExchangeClient();
-		    var result = await client.GetExchangeRateHistory(new DateTime(2016, 1, 1));
-		    MessageBox.Show(result.Base);
+		    var result = await client.GetExchangeRateHistoryPeriod(new DateTime(2017,1,1), new DateTime(2017,5,5));
+		    MessageBox.Show(result.Count(x => true).ToString());
 		}
 	}
 }
