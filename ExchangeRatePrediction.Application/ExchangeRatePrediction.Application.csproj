@@ -54,15 +54,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationConsts.cs" />
+    <Compile Include="Contract\IOpenExchangeClient.cs" />
+    <Compile Include="Utils\ApplicationConsts.cs" />
     <Compile Include="Data\CurrencyHistory.cs" />
-    <Compile Include="OpenExchangeClient.cs" />
-    <Compile Include="OpenExchangeRateResult.cs" />
+    <Compile Include="OpenExchangeRate\OpenExchangeClient.cs" />
+    <Compile Include="OpenExchangeRate\OpenExchangeRateResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

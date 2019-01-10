@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+using ExchangeRatePrediction.Application.Contract;
+using ExchangeRatePrediction.Application.Utils;
 
-namespace ExchangeRatePrediction.Application
+namespace ExchangeRatePrediction.Application.OpenExchangeRate
 {
-    public class OpenExchangeClient
-    {
-        private HttpClient _httpClient;
+    public class OpenExchangeClient : IOpenExchangeClient
+	{
+        private readonly HttpClient _httpClient;
 
-        public OpenExchangeClient()
+        public OpenExchangeClient(HttpClient httpClient)
         {
-            _httpClient = new HttpClient();
+            _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(ApplicationConsts.OpenExchangeApiBaseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

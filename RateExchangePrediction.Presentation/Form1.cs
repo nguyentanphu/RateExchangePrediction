@@ -8,14 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ExchangeRatePrediction.Application;
+using ExchangeRatePrediction.Application.Contract;
+using ExchangeRatePrediction.Application.OpenExchangeRate;
 
 namespace RateExchangePrediction.Presentation
 {
 	public partial class Form1 : Form
 	{
-		public Form1()
+		private readonly IOpenExchangeClient _openExchangeClient;
+		public Form1(IOpenExchangeClient openExchangeClient)
 		{
+			_openExchangeClient = openExchangeClient;
+
 			InitializeComponent();
 		}
 
@@ -50,8 +54,7 @@ namespace RateExchangePrediction.Presentation
 
 			Result.Text = (slope * 1546300800 + intercept).ToString(CultureInfo.CurrentCulture);
 
-            OpenExchangeClient client = new OpenExchangeClient();
-		    var result = await client.GetExchangeRateHistoryPeriod(new DateTime(2017,1,1), new DateTime(2017,5,5));
+		    var result = await _openExchangeClient.GetExchangeRateHistoryPeriod(new DateTime(2017,1,1), new DateTime(2017,5,5));
 		    MessageBox.Show(result.Count(x => true).ToString());
 		}
 	}

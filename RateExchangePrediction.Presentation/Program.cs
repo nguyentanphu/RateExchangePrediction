@@ -1,13 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ExchangeRatePrediction.Application.Contract;
+using ExchangeRatePrediction.Application.OpenExchangeRate;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RateExchangePrediction.Presentation
 {
 	static class Program
 	{
+		private static IServiceProvider ServiceProvider { get; set; }
+
+		private static void ConfigureServices()
+		{
+			var services = new ServiceCollection();
+			services.AddScoped<IOpenExchangeClient, OpenExchangeClient>();
+			services.AddScoped<HttpClient, HttpClient>();
+			services.AddScoped<Form1, Form1>();
+			ServiceProvider = services.BuildServiceProvider();
+		}
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -16,7 +30,8 @@ namespace RateExchangePrediction.Presentation
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+			ConfigureServices();
+			Application.Run(ServiceProvider.GetService<Form1>());
 		}
 	}
 }
