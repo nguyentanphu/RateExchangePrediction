@@ -10,9 +10,9 @@ namespace ExchangeRatePrediction.Application.Data
     {
 	    private readonly string _fromCurrency;
 		private readonly string _toCurrency;
-	    public List<Tuple<long, double>> _exchangeRateSample;
+	    private IList<Tuple<long, double>> _exchangeRateSample;
 
-		public CurrencyHistory(string fromCurrency, string toCurrency, List<Tuple<long, double>> exchangeRateSample)
+		public CurrencyHistory(string fromCurrency, string toCurrency, IList<Tuple<long, double>> exchangeRateSample)
 		{
 			_fromCurrency = fromCurrency;
 			_toCurrency = toCurrency;
