@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ExchangeRatePrediction.Application.OpenExchangeRate;
+using ExchangeRatePrediction.Application.OpenExchangeRates;
 
 namespace ExchangeRatePrediction.Application.Contract
 {

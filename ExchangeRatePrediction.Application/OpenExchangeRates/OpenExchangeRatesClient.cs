@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ExchangeRatePrediction.Application.Contract;
+using ExchangeRatePrediction.Application.Data;
 using ExchangeRatePrediction.Application.Utils;
 
-namespace ExchangeRatePrediction.Application.OpenExchangeRate
+namespace ExchangeRatePrediction.Application.OpenExchangeRates
 {
-    public class OpenExchangeClient : IOpenExchangeClient
+    public class OpenExchangeRatesClient : IOpenExchangeClient
 	{
         private readonly HttpClient _httpClient;
+	    private readonly OpenExchangeCache _openExchangeCache;
 
-        public OpenExchangeClient(HttpClient httpClient)
+        public OpenExchangeRatesClient(HttpClient httpClient, OpenExchangeCache openExchangeCache)
         {
+            _openExchangeCache = openExchangeCache;
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(ApplicationConsts.OpenExchangeApiBaseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -22,11 +26,18 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRate
 
         public async Task<OpenExchangeRateResult> GetExchangeRateHistory(DateTime targetDate)
         {
+            var cacheResult = GetFromCache(targetDate);
+            if (cacheResult != null) return cacheResult;
+
+
             var response =
                 await _httpClient.GetAsync(
                     $"historical/{targetDate:yyyy-MM-dd}.json?app_id={ApplicationConsts.OpenExchangeApiKey}");
+            var result = await response.Content.ReadAsAsync<OpenExchangeRateResult>();
 
-            return await response.Content.ReadAsAsync<OpenExchangeRateResult>();
+            _openExchangeCache.InmemoryData.Add(result);
+
+            return result;
         }
 
 	    public async Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate)
@@ -46,7 +57,11 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRate
 
 	    }
 
-	    private DateTime GetMidMonthDay(DateTime targetDate)
+	    private OpenExchangeRateResult GetFromCache(DateTime targetDate)
+	    {
+	        return _openExchangeCache.InmemoryData.FirstOrDefault(x => x.DateFromTimeStamp == targetDate);
+        }
+        private DateTime GetMidMonthDay(DateTime targetDate)
 	    {
 			return new DateTime(targetDate.Year, targetDate.Month, 15);
 	    }

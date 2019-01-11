@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExchangeRatePrediction.Application.Contract;
-using ExchangeRatePrediction.Application.OpenExchangeRate;
 
 namespace RateExchangePrediction.Presentation
 {
@@ -54,8 +53,9 @@ namespace RateExchangePrediction.Presentation
 
 			Result.Text = (slope * 1546300800 + intercept).ToString(CultureInfo.CurrentCulture);
 
-		    var result = await _openExchangeClient.GetExchangeRateHistoryPeriod(new DateTime(2017,1,1), new DateTime(2017,5,5));
-		    MessageBox.Show(result.Count(x => true).ToString());
+		    var result1 = await _openExchangeClient.GetExchangeRateHistory(new DateTime(2017, 1, 1));
+
+            MessageBox.Show(result1.Base);
 		}
 	}
 }

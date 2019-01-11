@@ -5,7 +5,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExchangeRatePrediction.Application.Contract;
-using ExchangeRatePrediction.Application.OpenExchangeRate;
+using ExchangeRatePrediction.Application.Data;
+using ExchangeRatePrediction.Application.OpenExchangeRates;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace RateExchangePrediction.Presentation
@@ -17,8 +18,9 @@ namespace RateExchangePrediction.Presentation
 		private static void ConfigureServices()
 		{
 			var services = new ServiceCollection();
-			services.AddScoped<IOpenExchangeClient, OpenExchangeClient>();
+			services.AddScoped<IOpenExchangeClient, OpenExchangeRatesClient>();
 			services.AddScoped<HttpClient, HttpClient>();
+		    services.AddSingleton<OpenExchangeCache, OpenExchangeCache>();
 			services.AddScoped<Form1, Form1>();
 			ServiceProvider = services.BuildServiceProvider();
 		}
