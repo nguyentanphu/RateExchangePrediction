@@ -24,8 +24,10 @@ namespace RateExchangePrediction.Presentation
 
 		private async void button1_Click(object sender, EventArgs e)
 		{
-			var fromCurrency = FromCurrency.SelectedItem as string;
-			var toCurrency = ToCurrency.SelectedItem as string;
+		    var fromCurrency = FromCurrency.SelectedValue as string;
+		    var toCurrency = ToCurrency.SelectedValue as string;
+		    MessageBox.Show($"{fromCurrency} --- {toCurrency}");
+
 
 			var sampleArr = new List<Tuple<long, double>>()
 			{
@@ -57,5 +59,23 @@ namespace RateExchangePrediction.Presentation
 
             MessageBox.Show(result1.Base);
 		}
-	}
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            var currencies = (await _openExchangeClient.GetExchangeRatesCurencies()).ToArray();
+
+            var fromItems = currencies.Select(x => new ListBoxItem {Id = x.Key, Text = $"{x.Key} - {x.Value}"}).ToList();
+            var toItems = fromItems.ToList();
+
+            FromCurrency.ValueMember = "Id";
+            FromCurrency.DisplayMember = "Text";
+            FromCurrency.DataSource = fromItems;
+            FromCurrency.SelectedItem = fromItems.FirstOrDefault(c => c.Id == "USD");
+
+            ToCurrency.ValueMember = "Id";
+            ToCurrency.DisplayMember = "Text";
+            ToCurrency.DataSource = toItems;
+            ToCurrency.SelectedItem = toItems.FirstOrDefault(c => c.Id == "VND");
+        }
+    }
 }

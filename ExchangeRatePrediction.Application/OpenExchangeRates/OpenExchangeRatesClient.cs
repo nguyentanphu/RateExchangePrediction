@@ -40,6 +40,13 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRates
             return result;
         }
 
+	    public async Task<IDictionary<string, string>> GetExchangeRatesCurencies()
+	    {
+	        var response =
+	            await _httpClient.GetAsync("currencies.json");
+	        return await response.Content.ReadAsAsync<IDictionary<string, string>>();
+        }
+
 	    public async Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate)
 	    {
 		    if (fromDate > toDate) throw new ArgumentException("fromDate cannot be greater than toDate", nameof(fromDate));

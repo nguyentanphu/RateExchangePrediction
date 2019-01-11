@@ -11,5 +11,7 @@ namespace ExchangeRatePrediction.Application.Contract
 	{
 		Task<OpenExchangeRateResult> GetExchangeRateHistory(DateTime targetDate);
 		Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate);
+	    Task<IDictionary<string, string>> GetExchangeRatesCurencies();
+
 	}
 }
