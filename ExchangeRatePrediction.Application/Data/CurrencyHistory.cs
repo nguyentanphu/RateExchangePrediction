@@ -8,8 +8,37 @@ namespace ExchangeRatePrediction.Application.Data
 {
     public class CurrencyHistory
     {
-        public string FromCurrency { get; set; }
-        public string ToCurrency { get; set; }
-        public List<double> ExchangeRates { get; set; }
-    }
+	    private readonly string _fromCurrency;
+		private readonly string _toCurrency;
+	    public List<Tuple<long, double>> _exchangeRateSample;
+
+		public CurrencyHistory(string fromCurrency, string toCurrency, List<Tuple<long, double>> exchangeRateSample)
+		{
+			_fromCurrency = fromCurrency;
+			_toCurrency = toCurrency;
+			_exchangeRateSample = exchangeRateSample;
+		}
+
+	    public double MakePrediction(DateTime targetDate)
+	    {
+		    var n = _exchangeRateSample.Count;
+		    double sumX = 0;
+		    double sumY = 0;
+		    double sumXY = 0;
+		    double sumXSquare = 0;
+
+		    foreach (var sample in _exchangeRateSample)
+		    {
+			    sumX += sample.Item1;
+			    sumY += sample.Item2;
+			    sumXY += sample.Item1 * sample.Item2;
+			    sumXSquare += sample.Item1 * sample.Item1;
+		    }
+
+		    var slope = (n * sumXY - sumX * sumY) / (n * sumXSquare - sumX * sumX);
+		    var intercept = (sumY - slope * sumX) / n;
+
+		    return slope * ((DateTimeOffset)targetDate).ToUnixTimeSeconds() + intercept;
+	    }
+	}
 }

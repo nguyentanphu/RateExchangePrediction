@@ -10,8 +10,11 @@ namespace ExchangeRatePrediction.Application.Contract
 	public interface IOpenExchangeClient
 	{
 		Task<OpenExchangeRateResult> GetExchangeRateHistory(DateTime targetDate);
-		Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate);
-	    Task<IDictionary<string, string>> GetExchangeRatesCurencies();
+
+		Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate,
+			PeriodMode mode = PeriodMode.ByMonth);
+
+		Task<IDictionary<string, string>> GetExchangeRatesCurrencies();
 
 	}
 }

@@ -55,7 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contract\IOpenExchangeClient.cs" />
+    <Compile Include="Contract\IPredictionService.cs" />
     <Compile Include="OpenExchangeRates\OpenExchangeCache.cs" />
+    <Compile Include="OpenExchangeRates\PeriodMode.cs" />
+    <Compile Include="PredictionService.cs" />
     <Compile Include="Utils\ApplicationConsts.cs" />
     <Compile Include="Data\CurrencyHistory.cs" />
     <Compile Include="OpenExchangeRates\OpenExchangeRatesClient.cs" />

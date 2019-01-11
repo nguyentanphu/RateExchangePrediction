@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ExchangeRatePrediction.Application;
 using ExchangeRatePrediction.Application.Contract;
 using ExchangeRatePrediction.Application.Data;
 using ExchangeRatePrediction.Application.OpenExchangeRates;
@@ -18,6 +19,7 @@ namespace RateExchangePrediction.Presentation
 		private static void ConfigureServices()
 		{
 			var services = new ServiceCollection();
+			services.AddScoped<IPredictionService, PredictionService>();
 			services.AddScoped<IOpenExchangeClient, OpenExchangeRatesClient>();
 			services.AddScoped<HttpClient, HttpClient>();
 		    services.AddSingleton<OpenExchangeCache, OpenExchangeCache>();
