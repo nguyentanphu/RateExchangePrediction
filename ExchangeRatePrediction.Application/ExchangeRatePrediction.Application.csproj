@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contract\IOpenExchangeClient.cs" />
-    <Compile Include="Data\OpenExchangeCache.cs" />
+    <Compile Include="OpenExchangeRates\OpenExchangeCache.cs" />
     <Compile Include="Utils\ApplicationConsts.cs" />
     <Compile Include="Data\CurrencyHistory.cs" />
     <Compile Include="OpenExchangeRates\OpenExchangeRatesClient.cs" />
