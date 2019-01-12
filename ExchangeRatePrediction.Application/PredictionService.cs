@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ExchangeRatePrediction.Application.Contract;
 using ExchangeRatePrediction.Application.Data;
+using ExchangeRatePrediction.Application.Exceptions;
 using ExchangeRatePrediction.Application.OpenExchangeRates;
 
 namespace ExchangeRatePrediction.Application
@@ -35,15 +36,36 @@ namespace ExchangeRatePrediction.Application
 			return _openExchangeClient.GetExchangeRatesCurrencies();
 		}
 
+		/// <exception cref="CurrencyNotFoundException">Target currencies are not found from sample list.</exception>
+		/// <returns></returns>
 		public double MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate, IEnumerable<OpenExchangeRateResult> sample)
 		{
 
-			var specificSample = sample.Select(s => new Tuple<long, double>(s.TimeStamp, s.Rates.FirstOrDefault(r => r.Key == toCurrency).Value))
+			var specificSample = sample.Select(s => MakeSamplePoint(s, fromCurrency, toCurrency))
 				.ToList();
 
 			var currencyHistory = new CurrencyHistory(fromCurrency, toCurrency, specificSample);
 
 			return currencyHistory.MakePrediction(targetDate);
+		}
+
+
+		private Tuple<long, double> MakeSamplePoint(OpenExchangeRateResult samplePoint, string fromCurrency, string toCurrency)
+		{
+			double fromCurrencyValue;
+			double toCurrencyValue;
+			try
+			{
+				fromCurrencyValue = fromCurrency == "USD" ? 1 : samplePoint.Rates.First(r => r.Key == fromCurrency).Value;
+				toCurrencyValue = samplePoint.Rates.First(r => r.Key == toCurrency).Value;
+			}
+			catch (InvalidOperationException ex)
+			{
+				throw new CurrencyNotFoundException(ex);
+			}
+
+
+			return new Tuple<long, double>(samplePoint.TimeStamp, toCurrencyValue / fromCurrencyValue);
 		}
 	}
 }

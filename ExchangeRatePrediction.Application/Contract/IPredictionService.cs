@@ -12,6 +12,8 @@ namespace ExchangeRatePrediction.Application.Contract
 		Task<IEnumerable<OpenExchangeRateResult>> FetchSampleData(DateTime fromDate, DateTime toDate,
 			bool overrideCache = false);
 
+		/// <exception cref="CurrencyNotFoundException">Target currencies are not found from sample list.</exception>
+		/// <returns></returns>
 		double MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate,
 			IEnumerable<OpenExchangeRateResult> sample);
 

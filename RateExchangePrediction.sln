@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateExchangePrediction.Pres
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRatePrediction.Application", "ExchangeRatePrediction.Application\ExchangeRatePrediction.Application.csproj", "{DF07ABCA-84F9-43AD-BAED-7736CB78E267}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRatePrediction.UnitTests", "ExchangeRatePrediction.UnitTests\ExchangeRatePrediction.UnitTests.csproj", "{6C0930FA-3F8F-4ED1-A97E-0AFDBCD86F54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeRatePrediction.Application.Tests", "ExchangeRatePrediction.UnitTests\ExchangeRatePrediction.Application.Tests.csproj", "{6C0930FA-3F8F-4ED1-A97E-0AFDBCD86F54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExchangeRatePrediction.Application.Contract;
+using ExchangeRatePrediction.Application.Exceptions;
 
 namespace RateExchangePrediction.Presentation
 {
@@ -29,12 +30,20 @@ namespace RateExchangePrediction.Presentation
 			var selectedDate = monthCalendar1.SelectionStart;
 
 			var sampleData =
-				await _predictionService.FetchSampleData(new DateTime(2016, 1, 15), new DateTime(2018, 12, 15));
+				await _predictionService.FetchSampleData(new DateTime(2001, 1, 15), new DateTime(2001, 12, 15));
 
-			var result =
-				_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);
+			try
+			{
+				var result =
+					_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);
+				Result.Text = result.ToString(CultureInfo.InvariantCulture);
+			}
+			catch (CurrencyNotFoundException exception)
+			{
+				MessageBox.Show(exception.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 
-			MessageBox.Show(result.ToString());
+			
 		}
 
         private async void Form1_Load(object sender, EventArgs e)

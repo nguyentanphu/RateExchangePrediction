@@ -22,6 +22,9 @@ namespace ExchangeRatePrediction.Application.Data
 	    public double MakePrediction(DateTime targetDate)
 	    {
 		    var n = _exchangeRateSample.Count;
+
+		    if (n == 0) return default(double);
+
 		    double sumX = 0;
 		    double sumY = 0;
 		    double sumXY = 0;
