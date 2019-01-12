@@ -52,10 +52,10 @@ namespace RateExchangePrediction.Presentation
 		{
 			var fromCurrency = FromCurrency.SelectedValue as string;
 			var toCurrency = ToCurrency.SelectedValue as string;
-			var selectedDate = monthCalendar1.SelectionStart;
+			var selectedDate = DateTime.SpecifyKind(monthCalendar1.SelectionStart, DateTimeKind.Utc);
 
 			var sampleData =
-				await _predictionService.FetchSampleData(new DateTime(2001, 1, 15), new DateTime(2001, 12, 15));
+				await _predictionService.FetchSampleData(new DateTime(2017, 1, 15), new DateTime(2018, 12, 15));
 
 			var result =
 				_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);

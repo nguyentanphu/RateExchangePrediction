@@ -19,7 +19,7 @@ namespace ExchangeRatePrediction.Application.Data
 			_exchangeRateSample = exchangeRateSample;
 		}
 
-	    public double MakePrediction(DateTime targetDate)
+	    public double MakePrediction(DateTime targetDateUtc)
 	    {
 		    var n = _exchangeRateSample.Count;
 
@@ -41,7 +41,7 @@ namespace ExchangeRatePrediction.Application.Data
 		    var slope = (n * sumXY - sumX * sumY) / (n * sumXSquare - sumX * sumX);
 		    var intercept = (sumY - slope * sumX) / n;
 
-		    return slope * ((DateTimeOffset)targetDate).ToUnixTimeSeconds() + intercept;
+		    return Math.Round(slope * ((DateTimeOffset)targetDateUtc).ToUnixTimeSeconds() + intercept, 4, MidpointRounding.AwayFromZero);
 	    }
 	}
 }
