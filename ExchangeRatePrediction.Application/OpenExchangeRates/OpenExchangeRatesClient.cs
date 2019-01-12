@@ -5,19 +5,19 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ExchangeRatePrediction.Application.Contract;
-using ExchangeRatePrediction.Application.Data;
-using ExchangeRatePrediction.Application.Utils;
 
 namespace ExchangeRatePrediction.Application.OpenExchangeRates
 {
     public class OpenExchangeRatesClient : IOpenExchangeClient
 	{
         private readonly HttpClient _httpClient;
+		private const string OpenExchangeApiBaseUrl = "https://openexchangerates.org/api/";
+		private const string OpenExchangeApiKey = "d1409c8a45d947cbae8407725e7bde80";
 
-        public OpenExchangeRatesClient(HttpClient httpClient)
+		public OpenExchangeRatesClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(ApplicationConsts.OpenExchangeApiBaseUrl);
+            _httpClient.BaseAddress = new Uri(OpenExchangeApiBaseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
@@ -26,7 +26,7 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRates
         {
             var response =
                 await _httpClient.GetAsync(
-                    $"historical/{targetDate:yyyy-MM-dd}.json?app_id={ApplicationConsts.OpenExchangeApiKey}");
+                    $"historical/{targetDate:yyyy-MM-dd}.json?app_id={OpenExchangeApiKey}");
             var result = await response.Content.ReadAsAsync<OpenExchangeRateResult>();
 
             return result;

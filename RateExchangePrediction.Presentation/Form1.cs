@@ -50,6 +50,8 @@ namespace RateExchangePrediction.Presentation
 
 		private async Task PredictHandler()
 		{
+			button1.Enabled = false;
+
 			var fromCurrency = FromCurrency.SelectedValue as string;
 			var toCurrency = ToCurrency.SelectedValue as string;
 			var selectedDate = DateTime.SpecifyKind(monthCalendar1.SelectionStart, DateTimeKind.Utc);
@@ -60,6 +62,8 @@ namespace RateExchangePrediction.Presentation
 			var result =
 				_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);
 			Result.Text = result.ToString(CultureInfo.InvariantCulture);
+
+			button1.Enabled = true;
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
