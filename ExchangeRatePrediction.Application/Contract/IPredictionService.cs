@@ -9,6 +9,14 @@ namespace ExchangeRatePrediction.Application.Contract
 {
 	public interface IPredictionService
 	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="fromDate"></param>
+		/// <param name="toDate"></param>
+		/// <param name="overrideCache"></param>
+		/// <returns></returns>
+		/// <exception cref="HttpRequestException">Cannot connect to external api source.</exception>
 		Task<IEnumerable<OpenExchangeRateResult>> FetchSampleData(DateTime fromDate, DateTime toDate,
 			bool overrideCache = false);
 
@@ -16,7 +24,11 @@ namespace ExchangeRatePrediction.Application.Contract
 		/// <returns></returns>
 		double MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate,
 			IEnumerable<OpenExchangeRateResult> sample);
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		/// <exception cref="HttpRequestException">Cannot connect to external api source.</exception>
 		Task<IDictionary<string,string>> GetCurrencies();
 	}
 }
