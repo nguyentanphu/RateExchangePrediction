@@ -27,18 +27,9 @@ namespace RateExchangePrediction.Presentation
 
 		private async void button1_Click(object sender, EventArgs e)
 		{
-			var fromCurrency = FromCurrency.SelectedValue as string;
-			var toCurrency = ToCurrency.SelectedValue as string;
-			var selectedDate = monthCalendar1.SelectionStart;
-
 			try
 			{
-				var sampleData =
-					await _predictionService.FetchSampleData(new DateTime(2001, 1, 15), new DateTime(2001, 12, 15));
-
-				var result =
-					_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);
-				Result.Text = result.ToString(CultureInfo.InvariantCulture);
+				await PredictHandler();
 			}
 			catch (CurrencyNotFoundException exception)
 			{
@@ -57,13 +48,26 @@ namespace RateExchangePrediction.Presentation
 
 		}
 
+		private async Task PredictHandler()
+		{
+			var fromCurrency = FromCurrency.SelectedValue as string;
+			var toCurrency = ToCurrency.SelectedValue as string;
+			var selectedDate = monthCalendar1.SelectionStart;
+
+			var sampleData =
+				await _predictionService.FetchSampleData(new DateTime(2001, 1, 15), new DateTime(2001, 12, 15));
+
+			var result =
+				_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);
+			Result.Text = result.ToString(CultureInfo.InvariantCulture);
+		}
+
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			IDictionary<string, string> currencies = new ConcurrentDictionary<string, string>();
 
 			try
 			{
-				currencies = await _predictionService.GetCurrencies();
+				await LoadCurrencies();
 			}
 			catch (HttpRequestException)
 			{
@@ -74,10 +78,12 @@ namespace RateExchangePrediction.Presentation
 
 				else if (dialogResult == DialogResult.Retry)
 					Form1_Load(sender, e);
-
-				return;
 			}
+		}
 
+		private async Task LoadCurrencies()
+		{
+			var currencies = await _predictionService.GetCurrencies();
 			var fromItems = currencies.Select(x => new ListBoxItem { Id = x.Key, Text = $"{x.Key} - {x.Value}" }).ToList();
 			var toItems = fromItems.ToList();
 
