@@ -1,0 +1,11 @@
+﻿[
+    {
+        "DateFromTimeStamp": "1971-02-02T00:00:00",
+        "TimeStamp": 34343423,
+        "Base": "USD",
+        "Rates": {
+            "VND": 23455.0,
+            "CYN": 6435.0
+        }
+    }
+]

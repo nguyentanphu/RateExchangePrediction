@@ -16,7 +16,7 @@ namespace ExchangeRatePrediction.Application.Data
 		{
 			_fromCurrency = fromCurrency;
 			_toCurrency = toCurrency;
-			_exchangeRateSample = exchangeRateSample;
+			_exchangeRateSample = exchangeRateSample ?? throw new ArgumentException();
 		}
 
 	    public double MakePrediction(DateTime targetDateUtc)

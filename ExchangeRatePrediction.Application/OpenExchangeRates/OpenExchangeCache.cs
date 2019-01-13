@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using ExchangeRatePrediction.Application.Contract;
 
 namespace ExchangeRatePrediction.Application.OpenExchangeRates
 {
-    public class OpenExchangeCache
+    public class OpenExchangeCache : IOpenExchangeCache
     {
-        public List<OpenExchangeRateResult> InmemoryData { get; set; } = new List<OpenExchangeRateResult>();
+        public List<OpenExchangeRateResult> InMemoryData { get; set; } = new List<OpenExchangeRateResult>();
     }
 }

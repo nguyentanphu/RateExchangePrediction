@@ -21,6 +21,7 @@ namespace RateExchangePrediction.Presentation
 			var services = new ServiceCollection();
 			services.AddScoped<IPredictionService, PredictionService>();
 			services.AddScoped<IOpenExchangeClient, OpenExchangeRatesClient>();
+			services.AddScoped<IOpenExchangeCache, OpenExchangeCache>();
 			services.AddScoped<HttpClient, HttpClient>();
 		    services.AddSingleton<OpenExchangeCache, OpenExchangeCache>();
 			services.AddScoped<Form1, Form1>();

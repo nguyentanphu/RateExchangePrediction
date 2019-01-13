@@ -13,8 +13,8 @@ namespace ExchangeRatePrediction.Application
 	public class PredictionService : IPredictionService
 	{
 		private readonly IOpenExchangeClient _openExchangeClient;
-		private readonly OpenExchangeCache _cache;
-		public PredictionService(IOpenExchangeClient openExchangeClient, OpenExchangeCache cache)
+		private readonly IOpenExchangeCache _cache;
+		public PredictionService(IOpenExchangeClient openExchangeClient, IOpenExchangeCache cache)
 		{
 			_openExchangeClient = openExchangeClient;
 			_cache = cache;
@@ -22,11 +22,11 @@ namespace ExchangeRatePrediction.Application
 
 		public async Task<IEnumerable<OpenExchangeRateResult>> FetchSampleData(DateTime fromDate, DateTime toDate, bool overrideCache = false)
 		{
-			if (!overrideCache && _cache.InmemoryData.Any()) return _cache.InmemoryData;
+			if (!overrideCache && _cache.InMemoryData.Any()) return _cache.InMemoryData;
 
 			var result = await _openExchangeClient.GetExchangeRateHistoryPeriod(fromDate, toDate, PeriodMode.ByMonth);
 
-			_cache.InmemoryData.AddRange(result);
+			_cache.InMemoryData.AddRange(result);
 
 			return result;
 		}
@@ -40,6 +40,8 @@ namespace ExchangeRatePrediction.Application
 		/// <returns></returns>
 		public double MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate, IEnumerable<OpenExchangeRateResult> sample)
 		{
+			if (sample == null)
+				throw new ArgumentException("Sample cannot be null", nameof(sample));
 
 			var specificSample = sample.Select(s => MakeSamplePoint(s, fromCurrency, toCurrency))
 				.ToList();

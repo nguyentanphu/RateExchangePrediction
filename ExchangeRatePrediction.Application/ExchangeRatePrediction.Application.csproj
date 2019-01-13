@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\IOpenExchangeCache.cs" />
     <Compile Include="Contract\IOpenExchangeClient.cs" />
     <Compile Include="Contract\IPredictionService.cs" />
     <Compile Include="Exceptions\CurrencyNotExistException.cs" />

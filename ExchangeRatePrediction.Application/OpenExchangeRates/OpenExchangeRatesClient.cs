@@ -22,7 +22,7 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRates
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<OpenExchangeRateResult> GetExchangeRateHistory(DateTime targetDate)
+        public virtual async Task<OpenExchangeRateResult> GetExchangeRateHistory(DateTime targetDate)
         {
             var response =
                 await _httpClient.GetAsync(
