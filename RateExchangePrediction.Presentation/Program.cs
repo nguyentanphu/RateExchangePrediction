@@ -23,7 +23,6 @@ namespace RateExchangePrediction.Presentation
 			services.AddScoped<IOpenExchangeClient, OpenExchangeRatesClient>();
 			services.AddScoped<IOpenExchangeCache, OpenExchangeCache>();
 			services.AddScoped<HttpClient, HttpClient>();
-		    services.AddSingleton<OpenExchangeCache, OpenExchangeCache>();
 			services.AddScoped<Form1, Form1>();
 			ServiceProvider = services.BuildServiceProvider();
 		}
