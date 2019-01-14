@@ -20,11 +20,23 @@ namespace ExchangeRatePrediction.Application
 			_cache = cache;
 		}
 
-		public async Task<IEnumerable<OpenExchangeRateResult>> FetchSampleData(DateTime fromDate, DateTime toDate, bool overrideCache = false)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="mode"></param>
+        /// <param name="overrideCache"></param>
+        /// <returns></returns>
+        /// <exception cref="NotEnoughSampleException">Throw if sample return is less than 2 items.</exception>
+		public async Task<IEnumerable<OpenExchangeRateResult>> FetchSampleData(DateTime fromDate, DateTime toDate, PeriodMode mode = PeriodMode.Monthly, bool overrideCache = false)
 		{
 			if (!overrideCache && _cache.InMemoryData.Any()) return _cache.InMemoryData;
 
-			var result = await _openExchangeClient.GetExchangeRateHistoryPeriod(fromDate, toDate, PeriodMode.ByMonth);
+			var result = await _openExchangeClient.GetExchangeRateHistoryPeriod(fromDate, toDate, mode);
+
+            if (result.Count() < 2) 
+                throw new NotEnoughSampleException();
 
 			_cache.InMemoryData.AddRange(result);
 
@@ -36,9 +48,10 @@ namespace ExchangeRatePrediction.Application
 			return _openExchangeClient.GetExchangeRatesCurrencies();
 		}
 
-		/// <exception cref="CurrencyNotFoundException">Target currencies are not found from sample list.</exception>
-		/// <returns></returns>
-		public PredictionResult MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate, IEnumerable<OpenExchangeRateResult> sample)
+        /// <exception cref="CurrencyNotFoundException">Throw if target currencies are not found from sample list.</exception>
+        /// <exception cref="ArgumentException">Throw if sample is null or has less than 2 items</exception>
+        /// <returns></returns>
+        public PredictionResult MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate, IEnumerable<OpenExchangeRateResult> sample)
 		{
 			if (sample == null)
 				throw new ArgumentException("Sample cannot be null", nameof(sample));

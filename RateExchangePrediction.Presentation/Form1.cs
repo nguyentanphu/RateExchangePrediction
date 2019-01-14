@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExchangeRatePrediction.Application.Contract;
 using ExchangeRatePrediction.Application.Exceptions;
+using ExchangeRatePrediction.Application.OpenExchangeRates;
 
 namespace RateExchangePrediction.Presentation
 {
@@ -25,7 +26,7 @@ namespace RateExchangePrediction.Presentation
 			InitializeComponent();
 		}
 
-		private async void button1_Click(object sender, EventArgs e)
+		private async void PredictButton_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -43,18 +44,18 @@ namespace RateExchangePrediction.Presentation
 					Application.Exit();
 
 				else if (dialogResult == DialogResult.Retry)
-					button1_Click(sender, e);
+				    PredictButton_Click(sender, e);
 			}
 
 		}
 
 		private async Task PredictHandler()
 		{
-			button1.Enabled = false;
+			PredictButton.Enabled = false;
 
 			var fromCurrency = FromCurrency.SelectedValue as string;
 			var toCurrency = ToCurrency.SelectedValue as string;
-			var selectedDate = DateTime.SpecifyKind(monthCalendar1.SelectionStart, DateTimeKind.Utc);
+			var selectedDate = DateTime.SpecifyKind(MonthCalendar1.SelectionStart, DateTimeKind.Utc);
 
 			var sampleData =
 				await _predictionService.FetchSampleData(new DateTime(2016, 1, 15), new DateTime(2016, 12, 15));
@@ -64,7 +65,7 @@ namespace RateExchangePrediction.Presentation
 			Result.Text = result.PredictionRate.ToString(CultureInfo.InvariantCulture);
 		    RSquaredResult.Text = result.RSquared.ToString(CultureInfo.InvariantCulture);
 
-            button1.Enabled = true;
+            PredictButton.Enabled = true;
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
@@ -102,7 +103,59 @@ namespace RateExchangePrediction.Presentation
 			ToCurrency.DataSource = toItems;
 			ToCurrency.SelectedItem = toItems.FirstOrDefault(c => c.Id == "VND");
 
-			button1.Enabled = true;
+		    ListMode.SelectedItem = "Monthly";
+			PredictButton.Enabled = true;
 		}
-	}
+
+        private async void NewSampleDataButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (FromDatePicker.Value >= ToDatePicker.Value)
+                {
+                    MessageBox.Show("From date can't be greater or equal to To date", "Wrong options!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                NewSampleDataButton.Enabled = false;
+
+                await FetchSampleHandler();
+
+                MessageBox.Show("Sample has been updated successfully.", "Updated", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (HttpRequestException)
+            {
+                var dialogResult =
+                    MessageBox.Show("Can't fetch external api resources for sample data. Please try again later",
+                        "Exception", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+
+                if (dialogResult == DialogResult.Abort)
+                    Application.Exit();
+
+                else if (dialogResult == DialogResult.Retry)
+                    PredictButton_Click(sender, e);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Wrong options!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotEnoughSampleException ex)
+            {
+                MessageBox.Show(ex.Message, "Wrong options!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally
+            {
+                NewSampleDataButton.Enabled = true;
+            }
+        }
+
+	    private async Task FetchSampleHandler()
+	    {
+	        var selectedFromDate = FromDatePicker.Value;
+	        var selectedToDate = ToDatePicker.Value;
+	        var mode = (PeriodMode)Enum.Parse(typeof(PeriodMode), ListMode.SelectedItem as string);
+	        await _predictionService.FetchSampleData(selectedFromDate, selectedToDate, mode, true);
+        }
+    }
 }

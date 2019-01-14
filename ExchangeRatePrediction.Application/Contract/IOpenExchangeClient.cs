@@ -12,7 +12,7 @@ namespace ExchangeRatePrediction.Application.Contract
 		Task<OpenExchangeRateResult> GetExchangeRateHistory(DateTime targetDate);
 
 		Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate,
-			PeriodMode mode = PeriodMode.ByMonth);
+			PeriodMode mode = PeriodMode.Monthly);
 
 		Task<IDictionary<string, string>> GetExchangeRatesCurrencies();
 

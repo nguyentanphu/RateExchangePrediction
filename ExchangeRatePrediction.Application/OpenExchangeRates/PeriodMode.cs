@@ -8,7 +8,7 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRates
 {
 	public enum PeriodMode
 	{
-		ByDate = 0,
-		ByMonth
+		Daily = 0,
+		Monthly
 	}
 }

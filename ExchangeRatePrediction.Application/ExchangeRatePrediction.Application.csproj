@@ -59,6 +59,7 @@
     <Compile Include="Contract\IPredictionService.cs" />
     <Compile Include="Data\PredictionResult.cs" />
     <Compile Include="Exceptions\CurrencyNotExistException.cs" />
+    <Compile Include="Exceptions\NotEnoughSampleException.cs" />
     <Compile Include="OpenExchangeRates\OpenExchangeCache.cs" />
     <Compile Include="OpenExchangeRates\PeriodMode.cs" />
     <Compile Include="PredictionService.cs" />

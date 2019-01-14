@@ -11,13 +11,12 @@ namespace ExchangeRatePrediction.UnitTests
 	public class CurrencyHistoryTests
 	{
 		[Fact]
-		public void MakePrediction_With0Sample_ReturnDefault()
+		public void ExchangeRatesHistoryConstructor_WithInCorrectSample_ThrowArgumentException()
 		{
-			var currencyHistory = new ExchangeRatesHistory(new List<Tuple<long, double>>());
-			var result = currencyHistory.MakePrediction(new DateTime(2000, 1, 1));
-
-			Assert.Equal(default(double), result);
-		}
+		    Assert.Throws<ArgumentException>(() => new ExchangeRatesHistory(null));
+		    Assert.Throws<ArgumentException>(() => new ExchangeRatesHistory(new List<Tuple<long, double>>()));
+		    Assert.Throws<ArgumentException>(() => new ExchangeRatesHistory(new List<Tuple<long, double>>{new Tuple<long, double>(10, 20)}));
+        }
 
 		[Fact]
 		public void MakePrediction_WithSimpleSample_ReturnCorrectResult()
@@ -30,10 +29,12 @@ namespace ExchangeRatePrediction.UnitTests
 					new Tuple<long, double>(4, 25)
 				});
 			var unixTimeStamp = DateTimeOffset.FromUnixTimeSeconds(5).UtcDateTime;
-			var result = currencyHistory.MakePrediction(unixTimeStamp);
+			var predictionResult = currencyHistory.MakePrediction(unixTimeStamp);
+		    var rSquared = currencyHistory.GetRSquared();
 
-			Assert.Equal(30, result);
-		}
+			Assert.Equal(30, predictionResult);
+		    Assert.Equal(1, rSquared);
+        }
 
 		private long CreateUnixTimeStamp(int year, int month, int day)
 		{
@@ -52,10 +53,13 @@ namespace ExchangeRatePrediction.UnitTests
 					new Tuple<long, double>(CreateUnixTimeStamp(2018, 11, 15), 23234.180172),
 					new Tuple<long, double>(CreateUnixTimeStamp(2018, 12, 15), 23236.342257)
 				});
-			var result = currencyHistory.MakePrediction(new DateTime(2019, 2, 15));
 
-			Assert.Equal(23338.5313, result);
-		}
+			var predictionResult = currencyHistory.MakePrediction(new DateTime(2019, 2, 15));
+		    var rSquared = currencyHistory.GetRSquared();
+
+            Assert.Equal(23338.5313, predictionResult);
+		    Assert.Equal(0.6729, rSquared);
+        }
 
 	}
 }

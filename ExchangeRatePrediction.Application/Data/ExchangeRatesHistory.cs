@@ -14,9 +14,17 @@ namespace ExchangeRatePrediction.Application.Data
         private double _intercept;
         private double _rSquared;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exchangeRateSample"></param>
+        /// <exception cref="ArgumentException">Throw if exchangeRateSample has less than 2 items</exception>
 		public ExchangeRatesHistory(IList<Tuple<long, double>> exchangeRateSample)
 		{
-			_exchangeRateSample = exchangeRateSample ?? throw new ArgumentException();
+            if (exchangeRateSample == null || exchangeRateSample.Count < 2)
+                throw new ArgumentException("Sample data must have at least 2 items");
+
+		    _exchangeRateSample = exchangeRateSample;
 		    CalculateRegressionLine();
 		    CalculateRSquared();
 		}

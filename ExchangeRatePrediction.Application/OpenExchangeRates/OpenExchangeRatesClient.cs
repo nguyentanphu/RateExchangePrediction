@@ -39,20 +39,28 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRates
 	        return await response.Content.ReadAsAsync<IDictionary<string, string>>();
         }
 
-	    public async Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate, PeriodMode mode = PeriodMode.ByMonth)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">Throw if fromDate is greater than startDate</exception>
+	    public async Task<IEnumerable<OpenExchangeRateResult>> GetExchangeRateHistoryPeriod(DateTime fromDate, DateTime toDate, PeriodMode mode = PeriodMode.Monthly)
 	    {
-		    if (fromDate > toDate) throw new ArgumentException("fromDate cannot be greater than toDate", nameof(fromDate));
-		    if (mode == PeriodMode.ByMonth) fromDate = GetMidMonthDay(fromDate);
+		    if (fromDate >= toDate) throw new ArgumentException("fromDate cannot be greater than toDate", nameof(fromDate));
+		    if (mode == PeriodMode.Monthly) fromDate = GetMidMonthDay(fromDate);
 
 			var allTasks = new List<Task<OpenExchangeRateResult>>();
 
 		    while (fromDate <= toDate)
 		    {
 				allTasks.Add(GetExchangeRateHistory(fromDate));
-			    fromDate = mode == PeriodMode.ByMonth ? fromDate.AddMonths(1) : fromDate.AddDays(1);
+			    fromDate = mode == PeriodMode.Monthly ? fromDate.AddMonths(1) : fromDate.AddDays(1);
 		    }
 
-		    return await Task.WhenAll(allTasks);
+            return await Task.WhenAll(allTasks);
 
 	    }
         private DateTime GetMidMonthDay(DateTime targetDate)

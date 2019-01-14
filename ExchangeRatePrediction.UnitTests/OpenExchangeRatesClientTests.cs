@@ -52,7 +52,7 @@ namespace ExchangeRatePrediction.UnitTests
 		{
 			var result =
 				await _client.Object.GetExchangeRateHistoryPeriod(new DateTime(2013, 1, 1),
-					new DateTime(2013, 1, 30), PeriodMode.ByDate);
+					new DateTime(2013, 1, 30), PeriodMode.Daily);
 
 			Assert.Equal(30, result.Count());
 		}
