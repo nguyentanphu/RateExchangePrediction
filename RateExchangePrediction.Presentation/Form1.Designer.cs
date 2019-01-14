@@ -36,6 +36,8 @@
             this.FromCurrency = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.Result = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.RSquaredResult = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -95,6 +97,7 @@
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(125, 309);
             this.button1.Margin = new System.Windows.Forms.Padding(1);
             this.button1.Name = "button1";
@@ -103,7 +106,6 @@
             this.button1.Text = "Predict!";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-			this.button1.Enabled = false;
             // 
             // Result
             // 
@@ -116,11 +118,32 @@
             this.Result.TabIndex = 10;
             this.Result.Text = "0";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(175, 378);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "R Squared";
+            // 
+            // RSquaredResult
+            // 
+            this.RSquaredResult.AutoSize = true;
+            this.RSquaredResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RSquaredResult.Location = new System.Drawing.Point(342, 374);
+            this.RSquaredResult.Name = "RSquaredResult";
+            this.RSquaredResult.Size = new System.Drawing.Size(17, 17);
+            this.RSquaredResult.TabIndex = 12;
+            this.RSquaredResult.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 478);
+            this.Controls.Add(this.RSquaredResult);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.Result);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.FromCurrency);
@@ -148,6 +171,8 @@
 		private System.Windows.Forms.ListBox FromCurrency;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Label Result;
-	}
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label RSquaredResult;
+    }
 }
 

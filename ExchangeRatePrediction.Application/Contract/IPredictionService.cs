@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExchangeRatePrediction.Application.Data;
 using ExchangeRatePrediction.Application.OpenExchangeRates;
 
 namespace ExchangeRatePrediction.Application.Contract
@@ -22,7 +23,7 @@ namespace ExchangeRatePrediction.Application.Contract
 
 		/// <exception cref="CurrencyNotFoundException">Target currencies are not found from sample list.</exception>
 		/// <returns></returns>
-		double MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate,
+		PredictionResult MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate,
 			IEnumerable<OpenExchangeRateResult> sample);
 		/// <summary>
 		/// 

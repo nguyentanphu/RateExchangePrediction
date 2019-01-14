@@ -57,11 +57,12 @@
     <Compile Include="Contract\IOpenExchangeCache.cs" />
     <Compile Include="Contract\IOpenExchangeClient.cs" />
     <Compile Include="Contract\IPredictionService.cs" />
+    <Compile Include="Data\PredictionResult.cs" />
     <Compile Include="Exceptions\CurrencyNotExistException.cs" />
     <Compile Include="OpenExchangeRates\OpenExchangeCache.cs" />
     <Compile Include="OpenExchangeRates\PeriodMode.cs" />
     <Compile Include="PredictionService.cs" />
-    <Compile Include="Data\CurrencyHistory.cs" />
+    <Compile Include="Data\ExchangeRatesHistory.cs" />
     <Compile Include="OpenExchangeRates\OpenExchangeRatesClient.cs" />
     <Compile Include="OpenExchangeRates\OpenExchangeRatesResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

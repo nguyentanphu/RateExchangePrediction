@@ -57,13 +57,14 @@ namespace RateExchangePrediction.Presentation
 			var selectedDate = DateTime.SpecifyKind(monthCalendar1.SelectionStart, DateTimeKind.Utc);
 
 			var sampleData =
-				await _predictionService.FetchSampleData(new DateTime(2017, 1, 15), new DateTime(2018, 12, 15));
+				await _predictionService.FetchSampleData(new DateTime(2016, 1, 15), new DateTime(2016, 12, 15));
 
 			var result =
 				_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);
-			Result.Text = result.ToString(CultureInfo.InvariantCulture);
+			Result.Text = result.PredictionRate.ToString(CultureInfo.InvariantCulture);
+		    RSquaredResult.Text = result.RSquared.ToString(CultureInfo.InvariantCulture);
 
-			button1.Enabled = true;
+            button1.Enabled = true;
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)

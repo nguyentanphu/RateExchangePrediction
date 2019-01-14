@@ -13,7 +13,7 @@ namespace ExchangeRatePrediction.UnitTests
 		[Fact]
 		public void MakePrediction_With0Sample_ReturnDefault()
 		{
-			var currencyHistory = new CurrencyHistory("USD", "VND",new List<Tuple<long, double>>());
+			var currencyHistory = new ExchangeRatesHistory(new List<Tuple<long, double>>());
 			var result = currencyHistory.MakePrediction(new DateTime(2000, 1, 1));
 
 			Assert.Equal(default(double), result);
@@ -22,8 +22,7 @@ namespace ExchangeRatePrediction.UnitTests
 		[Fact]
 		public void MakePrediction_WithSimpleSample_ReturnCorrectResult()
 		{
-			var currencyHistory = new CurrencyHistory("CNY", "VND", 
-				new List<Tuple<long, double>>
+			var currencyHistory = new ExchangeRatesHistory(new List<Tuple<long, double>>
 				{
 					new Tuple<long, double>(1, 10),
 					new Tuple<long, double>(2, 15),
@@ -45,8 +44,7 @@ namespace ExchangeRatePrediction.UnitTests
 		[Fact]
 		public void MakePrediction_WithTimeStampSample_ReturnCorrectResult()
 		{
-			var currencyHistory = new CurrencyHistory("USD", "VND",
-				new List<Tuple<long, double>>
+			var currencyHistory = new ExchangeRatesHistory(new List<Tuple<long, double>>
 				{
 					new Tuple<long, double>(CreateUnixTimeStamp(2018, 8, 15), 23114.292672),
 					new Tuple<long, double>(CreateUnixTimeStamp(2018, 9, 15), 23096.240172),

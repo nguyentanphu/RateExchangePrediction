@@ -38,7 +38,7 @@ namespace ExchangeRatePrediction.Application
 
 		/// <exception cref="CurrencyNotFoundException">Target currencies are not found from sample list.</exception>
 		/// <returns></returns>
-		public double MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate, IEnumerable<OpenExchangeRateResult> sample)
+		public PredictionResult MakePredictionFromSample(string fromCurrency, string toCurrency, DateTime targetDate, IEnumerable<OpenExchangeRateResult> sample)
 		{
 			if (sample == null)
 				throw new ArgumentException("Sample cannot be null", nameof(sample));
@@ -46,11 +46,14 @@ namespace ExchangeRatePrediction.Application
 			var specificSample = sample.Select(s => MakeSamplePoint(s, fromCurrency, toCurrency))
 				.ToList();
 
-			var currencyHistory = new CurrencyHistory(fromCurrency, toCurrency, specificSample);
+			var ratesHistory = new ExchangeRatesHistory(specificSample);
 
-			return currencyHistory.MakePrediction(targetDate);
+		    return new PredictionResult
+		    {
+		        PredictionRate = ratesHistory.MakePrediction(targetDate),
+		        RSquared = ratesHistory.GetRSquared()
+		    };
 		}
-
 
 		private Tuple<long, double> MakeSamplePoint(OpenExchangeRateResult samplePoint, string fromCurrency, string toCurrency)
 		{
