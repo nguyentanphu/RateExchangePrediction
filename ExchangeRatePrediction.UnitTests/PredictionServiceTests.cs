@@ -34,17 +34,27 @@ namespace ExchangeRatePrediction.UnitTests
 
 			IEnumerable<OpenExchangeRateResult> clientResult = new List<OpenExchangeRateResult>
 			{
-				new OpenExchangeRateResult
-				{
-					Base = "USD",
-					TimeStamp = 34343423,
-					Rates = new Dictionary<string, double>
-					{
-						{ "VND", 23455 },
-						{ "CYN", 6435 }
-					}
-				}
-			};
+			    new OpenExchangeRateResult
+			    {
+			        Base = "USD",
+			        TimeStamp = 35343423,
+			        Rates = new Dictionary<string, double>
+			        {
+			            { "VND", 23455 },
+			            { "CYN", 6435 }
+			        }
+			    },
+			    new OpenExchangeRateResult
+			    {
+			        Base = "USD",
+			        TimeStamp = 35343423,
+			        Rates = new Dictionary<string, double>
+			        {
+			            { "VND", 24455 },
+			            { "CYN", 6535 }
+			        }
+			    }
+            };
 			_openExchangeClient
 				.Setup(client =>
 					client.GetExchangeRateHistoryPeriod(It.IsAny<DateTime>(), It.IsAny<DateTime>(),
@@ -94,31 +104,49 @@ namespace ExchangeRatePrediction.UnitTests
 				new OpenExchangeRateResult
 				{
 					Base = "USD",
-					TimeStamp = 34343423,
+					TimeStamp = 35343423,
 					Rates = new Dictionary<string, double>
 					{
 						{ "VND", 23455 },
 						{ "CYN", 6435 }
 					}
-				}
-			});
+				},
+			    new OpenExchangeRateResult
+			    {
+			        Base = "USD",
+			        TimeStamp = 35343423,
+			        Rates = new Dictionary<string, double>
+			        {
+			            { "VND", 24455 },
+			            { "CYN", 6535 }
+			        }
+			    }
+            });
 
 			IEnumerable<OpenExchangeRateResult> clientResult = new List<OpenExchangeRateResult>
 			{
 
-				new OpenExchangeRateResult
-				{
-					Base = "CNY",
-					TimeStamp = 3523232,
-					Rates = new Dictionary<string, double>
-					{
-						{ "VND", 23455 },
-						{ "CYN", 6435 },
-						{ "BTN", 46.693954 },
-						{ "COP", 2236.382675 }
-					}
-				}
-			};
+			    new OpenExchangeRateResult
+			    {
+			        Base = "USD",
+			        TimeStamp = 35343423,
+			        Rates = new Dictionary<string, double>
+			        {
+			            { "VND", 23455 },
+			            { "CYN", 6435 }
+			        }
+			    },
+			    new OpenExchangeRateResult
+			    {
+			        Base = "USD",
+			        TimeStamp = 35343423,
+			        Rates = new Dictionary<string, double>
+			        {
+			            { "VND", 24455 },
+			            { "CYN", 6535 }
+			        }
+			    }
+            };
 			_openExchangeClient
 				.Setup(client =>
 					client.GetExchangeRateHistoryPeriod(It.IsAny<DateTime>(), It.IsAny<DateTime>(),

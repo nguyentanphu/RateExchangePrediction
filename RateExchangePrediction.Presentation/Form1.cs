@@ -28,44 +28,48 @@ namespace RateExchangePrediction.Presentation
 
 		private async void PredictButton_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				await PredictHandler();
-			}
-			catch (CurrencyNotFoundException exception)
-			{
-				MessageBox.Show(exception.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (HttpRequestException)
-			{
-				var dialogResult = MessageBox.Show("Can't fetch external api resources for sample data. Please try again later", "Exception", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+		    try
+		    {
+		        PredictButton.Enabled = false;
 
-				if (dialogResult == DialogResult.Abort)
-					Application.Exit();
+		        var fromCurrency = FromCurrency.SelectedValue as string;
+		        var toCurrency = ToCurrency.SelectedValue as string;
+		        var selectedDate = DateTime.SpecifyKind(MonthCalendar1.SelectionStart, DateTimeKind.Utc);
 
-				else if (dialogResult == DialogResult.Retry)
-				    PredictButton_Click(sender, e);
-			}
+                await PredictHandler(fromCurrency, toCurrency, selectedDate);
+		    }
+		    catch (CurrencyNotFoundException exception)
+		    {
+		        MessageBox.Show(exception.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		    }
+		    catch (HttpRequestException)
+		    {
+		        var dialogResult =
+		            MessageBox.Show("Can't fetch external api resources for sample data. Please try again later", "Exception",
+		                MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+
+		        if (dialogResult == DialogResult.Abort)
+		            Application.Exit();
+
+		        else if (dialogResult == DialogResult.Retry)
+		            PredictButton_Click(sender, e);
+		    }
+		    finally
+		    {
+		        PredictButton.Enabled = true;
+            }
 
 		}
 
-		private async Task PredictHandler()
+		private async Task PredictHandler(string fromCurrency, string toCurrency, DateTime targetDate)
 		{
-			PredictButton.Enabled = false;
-
-			var fromCurrency = FromCurrency.SelectedValue as string;
-			var toCurrency = ToCurrency.SelectedValue as string;
-			var selectedDate = DateTime.SpecifyKind(MonthCalendar1.SelectionStart, DateTimeKind.Utc);
-
 			var sampleData =
 				await _predictionService.FetchSampleData(new DateTime(2016, 1, 15), new DateTime(2016, 12, 15));
 
 			var result =
-				_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, selectedDate, sampleData);
+				_predictionService.MakePredictionFromSample(fromCurrency, toCurrency, targetDate, sampleData);
 			Result.Text = result.PredictionRate.ToString(CultureInfo.InvariantCulture);
 		    RSquaredResult.Text = result.RSquared.ToString(CultureInfo.InvariantCulture);
-
-            PredictButton.Enabled = true;
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
@@ -104,6 +108,7 @@ namespace RateExchangePrediction.Presentation
 			ToCurrency.SelectedItem = toItems.FirstOrDefault(c => c.Id == "VND");
 
 		    ListMode.SelectedItem = "Monthly";
+            
 			PredictButton.Enabled = true;
 		}
 
@@ -111,15 +116,20 @@ namespace RateExchangePrediction.Presentation
         {
             try
             {
-                if (FromDatePicker.Value >= ToDatePicker.Value)
+                var selectedFromDate = FromDatePicker.Value;
+                var selectedToDate = ToDatePicker.Value;
+                var mode = (PeriodMode)Enum.Parse(typeof(PeriodMode), ListMode.SelectedItem as string);
+
+                if (selectedFromDate >= selectedToDate)
                 {
                     MessageBox.Show("From date can't be greater or equal to To date", "Wrong options!",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 NewSampleDataButton.Enabled = false;
+                PredictButton.Enabled = false;
 
-                await FetchSampleHandler();
+                await _predictionService.FetchSampleData(selectedFromDate, selectedToDate, mode, true);
 
                 MessageBox.Show("Sample has been updated successfully.", "Updated", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -147,15 +157,8 @@ namespace RateExchangePrediction.Presentation
             finally
             {
                 NewSampleDataButton.Enabled = true;
+                PredictButton.Enabled = true;
             }
-        }
-
-	    private async Task FetchSampleHandler()
-	    {
-	        var selectedFromDate = FromDatePicker.Value;
-	        var selectedToDate = ToDatePicker.Value;
-	        var mode = (PeriodMode)Enum.Parse(typeof(PeriodMode), ListMode.SelectedItem as string);
-	        await _predictionService.FetchSampleData(selectedFromDate, selectedToDate, mode, true);
         }
     }
 }

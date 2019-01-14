@@ -205,6 +205,7 @@
             this.ListMode.Items.AddRange(new object[] {
             "Monthly",
             "Daily"});
+		    this.ListMode.SelectedItem = "Monthly";
             this.ListMode.Location = new System.Drawing.Point(899, 208);
             this.ListMode.Name = "ListMode";
             this.ListMode.Size = new System.Drawing.Size(200, 30);

@@ -11,7 +11,6 @@ namespace ExchangeRatePrediction.Application.Exceptions
         private static readonly int _minSampleSize = 2;
         public NotEnoughSampleException() : base($"Not enough sample size was fetched. Minimum is {_minSampleSize}")
         {
-
         }
     }
 }
