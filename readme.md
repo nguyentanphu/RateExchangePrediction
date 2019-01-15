@@ -1,5 +1,13 @@
 # A WinForm app which utilize the openexchangerates.org to make prediction in future !!!
 
+Key features and best practices:
+- Using Microsoft.Extensions.DependencyInjection for DI makes easier for unit testing.
+- Single responsibily class
+- Custom exceptions, exception handling for most exceptions! 
+- Singleton cache so that we can fetch data once and use it to make multiple predictions.
+- Fetching concurrently for faster performance. Having throttler machanism (using SemaphoreSlim) in order to limit number of parallelism which could potentially cause problems on old machine.
+- Test coverage > 90% of code base.
+
 Additional features:
 - Choose new sample size, specifying from date and to date.
 - Monthly mode and daily mode: Monthly will accumulate api monthly (getting rates of 15th date of each month), while in daily, rates will be fetch day by day basis.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ExchangeRatePrediction.Application.OpenExchangeRates;
 using Moq;
@@ -15,7 +16,7 @@ namespace ExchangeRatePrediction.UnitTests
 		private readonly Mock<OpenExchangeRatesClient> _client;
 		public OpenExchangeRatesClientTests()
 		{
-			_client = new Mock<OpenExchangeRatesClient>(MockBehavior.Strict, new HttpClient());
+			_client = new Mock<OpenExchangeRatesClient>(MockBehavior.Strict, new HttpClient(), new SemaphoreSlim(100));
 
 			_client.Setup(c => c.GetExchangeRateHistory(It.IsAny<DateTime>())).Returns(Task.FromResult(
 				new OpenExchangeRateResult
