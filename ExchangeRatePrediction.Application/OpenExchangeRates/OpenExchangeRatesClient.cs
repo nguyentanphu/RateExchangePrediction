@@ -12,7 +12,7 @@ namespace ExchangeRatePrediction.Application.OpenExchangeRates
 	{
         private readonly HttpClient _httpClient;
 		private const string OpenExchangeApiBaseUrl = "https://openexchangerates.org/api/";
-		private const string OpenExchangeApiKey = "d1409c8a45d947cbae8407725e7bde80";
+		private const string OpenExchangeApiKey = "3c9144dfedec4896ba18829d9019d877";
 
 		public OpenExchangeRatesClient(HttpClient httpClient)
         {

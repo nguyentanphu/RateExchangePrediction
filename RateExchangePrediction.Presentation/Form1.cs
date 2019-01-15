@@ -31,6 +31,7 @@ namespace RateExchangePrediction.Presentation
 		    try
 		    {
 		        PredictButton.Enabled = false;
+		        NewSampleDataButton.Enabled = false;
 
 		        var fromCurrency = FromCurrency.SelectedValue as string;
 		        var toCurrency = ToCurrency.SelectedValue as string;
@@ -57,6 +58,7 @@ namespace RateExchangePrediction.Presentation
 		    finally
 		    {
 		        PredictButton.Enabled = true;
+		        NewSampleDataButton.Enabled = true;
             }
 
 		}
@@ -75,20 +77,25 @@ namespace RateExchangePrediction.Presentation
 		private async void Form1_Load(object sender, EventArgs e)
 		{
 
-			try
-			{
-				await LoadCurrencies();
-			}
-			catch (HttpRequestException)
-			{
-				var dialogResult = MessageBox.Show("Can't connect to external api resources. Please try again later", "Exception", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+		    try
+		    {
+		        await LoadCurrencies();
+		    }
+		    catch (HttpRequestException)
+		    {
+		        var dialogResult = MessageBox.Show("Can't connect to external api resources. Please try again later",
+		            "Exception", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
 
-				if (dialogResult == DialogResult.Abort)
-					Application.Exit();
+		        if (dialogResult == DialogResult.Abort)
+		            Application.Exit();
 
-				else if (dialogResult == DialogResult.Retry)
-					Form1_Load(sender, e);
-			}
+		        else if (dialogResult == DialogResult.Retry)
+		            Form1_Load(sender, e);
+		    }
+		    finally
+		    {
+		        PredictButton.Enabled = true;
+            }
 		}
 
 		private async Task LoadCurrencies()
@@ -105,11 +112,7 @@ namespace RateExchangePrediction.Presentation
 			ToCurrency.ValueMember = "Id";
 			ToCurrency.DisplayMember = "Text";
 			ToCurrency.DataSource = toItems;
-			ToCurrency.SelectedItem = toItems.FirstOrDefault(c => c.Id == "VND");
-
-		    ListMode.SelectedItem = "Monthly";
-            
-			PredictButton.Enabled = true;
+			ToCurrency.SelectedItem = toItems.FirstOrDefault(c => c.Id == "TRY");
 		}
 
         private async void NewSampleDataButton_Click(object sender, EventArgs e)
