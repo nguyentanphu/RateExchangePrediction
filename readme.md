@@ -6,6 +6,7 @@ Key features and best practices:
 - Custom exceptions, exception handling for most exceptions! 
 - Singleton cache so that we can fetch data once and use it to make multiple predictions.
 - Fetching concurrently for faster performance. Having throttler machanism (using SemaphoreSlim) in order to limit number of parallelism which could potentially cause problems on old machine.
+- Unit tests with XUnit, Moq, ApprovalTests.
 - Test coverage > 90% of code base.
 
 Additional features:
